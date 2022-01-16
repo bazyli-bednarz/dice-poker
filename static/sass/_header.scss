@@ -1,0 +1,64 @@
+.header {
+  display: flex;
+  flex-direction: row;
+
+  .logo {
+    color: $first-color;
+    background-color: $second-color;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    h1 {
+      font-size: 2.7rem;
+      padding: 1rem 2rem;
+      z-index: 1;
+      font-family: 'Imperial Script', cursive;
+      text-shadow: 1px 1px 1px black, 2px 2px 2px darkgoldenrod;
+      text-transform: capitalize;
+
+    }
+
+    i {
+      position: absolute;
+      color: $third-color;
+      opacity: 0.3;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%) rotate(-20deg);
+      font-size: 5rem;
+    }
+
+  }
+
+  .nav {
+    flex-grow: 4;
+    background-color: $second-color;
+    display: flex;
+    align-items: center;
+    display: none;
+
+    ul {
+      display: flex;
+      flex-direction: row;
+
+      list-style: none;
+
+      li {
+        padding: 0 2rem;
+
+        a {
+          text-decoration: none;
+          color: $first-color;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $third-color;
+          }
+        }
+      }
+
+    }
+  }
+}
