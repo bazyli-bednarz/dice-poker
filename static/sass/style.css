@@ -1,9 +1,21 @@
+@charset "UTF-8";
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
   }
 }
 * {
@@ -80,12 +92,14 @@ body {
 }
 
 .main {
+  position: relative;
   border-radius: 3rem;
   background-color: white;
   flex-grow: 4;
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 100%;
 }
 .main .start-game-screen {
   box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
@@ -110,6 +124,109 @@ body {
   background-color: goldenrod;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.4);
   color: black;
+}
+.main .board {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex-grow: 1;
+  padding: 1rem;
+}
+.main .board-stats {
+  background-color: red;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  padding: 1rem;
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 100vh;
+}
+.main .board-player {
+  position: absolute;
+  padding: 1rem;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.main .board-player__1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 50%;
+}
+.main .board-player__2 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 50%;
+}
+.main .board-playerinfo {
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+}
+.main .board-dices {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 5rem;
+}
+.main .board-dices label {
+  position: relative;
+  cursor: pointer;
+  padding: 1rem;
+  transition: 0.3s;
+}
+.main .board-dices label i {
+  transition: 0.3s;
+}
+.main .board-dices label i:hover {
+  text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
+}
+.main .board-dices label i:after {
+  content: "🗘";
+  display: block;
+  font-size: 2rem;
+  transform: rotate(30deg) scale(0);
+  position: absolute;
+  top: 0;
+  right: -2rem;
+  opacity: 0;
+  transition: all 0.4s, opacity 0.3s 0.1s;
+  color: #650000;
+}
+.main .board-dices label input {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.main .board-dices label input:checked + i {
+  text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, #ff0000 0 0 20px, #ff0000 0 0 30px, #ff0000 0 0 40px, #ff0000 0 0 50px, #ff0000 0 0 75px;
+  transform: rotate(-30deg) scale(1.1);
+}
+.main .board-dices label input:checked + i:hover {
+  color: #212121;
+}
+.main .board-dices label input:focus-visible + i {
+  color: #212121;
+  text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
+}
+.main .board-dices label input:checked + i:after {
+  opacity: 1;
+  animation: rotate 0.4s 0.1s ease-out both;
+}
+.main .board ul {
+  list-style-type: none;
 }
 
 .footer {

@@ -29,7 +29,6 @@ def solo_start():
 @app.route('/board')
 def board():
     global game
-
     if game.number_of_players() == 0:
         return redirect('/solo')
     return render_template('board.html', game=game, active_player = game.players[game.active_player])

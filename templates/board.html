@@ -1,5 +1,44 @@
 {% extends 'base/default.html' %}
 
 {% block main %}
-{{ game }}
+    <div class="board">
+        <div class="board-stats">
+            <ul>
+                <li>Runda gracza: {{ game.players[game.active_player].name }}</li>
+                {% for winner in game.winners %}
+                    <li>Zwycięzca rundy {{ loop.index }}: {{ game.players[winner] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% for player in game.players %}
+            <div class="board-player board-player__{{ loop.index }}">
+
+
+                <div class="board-dices">
+                    <form action="">
+                        <label><input type="checkbox"><i class="fas fa-dice-one"></i></label>
+                        <label><input type="checkbox"><i class="fas fa-dice-three"></i></label>
+                        <label><input type="checkbox"><i class="fas fa-dice-one"></i></label>
+                        <label><input type="checkbox"><i class="fas fa-dice-five"></i></label>
+                        <label><input type="checkbox"><i class="fas fa-dice-six"></i></label>
+                    </form>
+                </div>
+
+                <div class="board-playerinfo">
+                    <ul>
+                        <li>
+                            Nazwa: {{ player.name }}
+                        </li>
+                        {% for score in player.score %}
+                            <li>
+                                Runda {{ loop.index }}: {{ score }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}
