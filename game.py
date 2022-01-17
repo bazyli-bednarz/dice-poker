@@ -1,6 +1,8 @@
 from player import Player
 from result import Result
 from collections import Counter
+from flask import flash
+from flask import Markup
 import random
 import math
 
@@ -9,11 +11,13 @@ class Game:
         self.dices = (1,2,3,4,5,6)
         self.players = []
         self.active_player = 0
+        self.active_last_round = 0
         self.turn_to_end = False
         self.turn = 0
         self.winners = []
         self.number_of_rounds = 3
         self.finished = False
+        self.winner = -1
 
     def add_player(self, name):
         self.players.append( Player(name) )
@@ -31,6 +35,12 @@ class Game:
             print(random_dice)
             self.players[self.active_player].dices_saved.append(random_dice)
 
+    def get_round_progress(self):
+        return self.get_round()+'/'+str(self.number_of_rounds)
+
+    def get_round(self):
+        return str(math.ceil(self.turn / 2))
+
     def start_rolling(self):
         if self.check_if_finished():
             print('END OF GAME')
@@ -40,18 +50,22 @@ class Game:
         if not self.turn_to_end:
             self.turn += 1
             self.players[self.active_player].dices_saved = []
+            self.players[self.active_player].dices_to_reroll = []
             self.roll([0 for x in range(5)])
             self.turn_to_end = True
         else:
             self.roll(self.players[self.active_player].dices_to_reroll)
             score = Result.dice_score(self.players[self.active_player].dices_saved)
             self.players[self.active_player].score.append(score)
+            self.players[self.active_player].score_dices.append(self.players[self.active_player].dices_saved)
             self.players[self.active_player].dices_to_reroll = []
+
+            message = Markup('Gracz <b>' + self.players[self.active_player].name + '</b> wyrzuca<br>')
+            flash(message)
 
             if self.turn % self.number_of_players() == 0:
                 winner = self.check_winner()
                 self.winners.append(winner)
-
 
                 if self.turn == (self.number_of_rounds * 2):
                     game_score = self.check_game_winner()
@@ -68,10 +82,12 @@ class Game:
                     return
 
                 if winner == self.active_player:
+                    self.active_last_round = self.active_player
                     self.next_player()
 
 
             else:
+                self.active_last_round = self.active_player
                 self.next_player()
             self.turn_to_end = False
 
@@ -126,5 +142,5 @@ Active: {self.active_player}
 Turn to end: {self.turn_to_end}
 Winners: {self.winners}
 Turn: {self.turn}
-Round: {math.ceil(self.turn / 2)}/{self.number_of_rounds}
+Round: {self.get_round_progress()}
         '''

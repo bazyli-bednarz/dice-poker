@@ -11,10 +11,21 @@
   0% {
     transform: rotate(0);
   }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes rotate_dice {
+  0% {
+    color: black;
+    transform: rotate(0);
+  }
   50% {
-    transform: rotate(360deg);
+    color: darkgoldenrod;
   }
   100% {
+    color: black;
     transform: rotate(720deg);
   }
 }

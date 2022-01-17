@@ -1,44 +1,65 @@
 {% extends 'base/default.html' %}
 
 {% block main %}
+
     <div class="board">
-        <div class="board-stats">
-            <ul>
-                <li>Runda gracza: {{ game.players[game.active_player].name }}</li>
-                {% for winner in game.winners %}
-                    <li>Zwycięzca rundy {{ loop.index }}: {{ game.players[winner] }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% for player in game.players %}
-            <div class="board-player board-player__{{ loop.index }}">
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+<div class="flash">
+{% for message in messages %}
+{{ message }}
+    {% for dice in game.players[game.active_last_round].score_dices[-1] %}
+        <i class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i>
+{% endfor %}
+{% endfor %}
+</div>
+    {% endif %}
+{% endwith %}
 
-
-                <div class="board-dices">
-                    <form action="">
-                        <label><input type="checkbox"><i class="fas fa-dice-one"></i></label>
-                        <label><input type="checkbox"><i class="fas fa-dice-three"></i></label>
-                        <label><input type="checkbox"><i class="fas fa-dice-one"></i></label>
-                        <label><input type="checkbox"><i class="fas fa-dice-five"></i></label>
-                        <label><input type="checkbox"><i class="fas fa-dice-six"></i></label>
-                    </form>
-                </div>
-
-                <div class="board-playerinfo">
-                    <ul>
-                        <li>
-                            Nazwa: {{ player.name }}
-                        </li>
-                        {% for score in player.score %}
-                            <li>
-                                Runda {{ loop.index }}: {{ score }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
+        <div class="board-player">
+            <div class="board-stats">
+                <ul>
+                    <li>Ruch gracza: {{ game.players[game.active_player].name }}</li>
+                    {% for winner in game.winners %}
+                        <li>Zwycięzca rundy {{ loop.index }}: {{ game.players[winner].name }}</li>
+                    {% endfor %}
+                    <li>Runda: {{ game.get_round_progress() }}</li>
+                </ul>
             </div>
 
-        {% endfor %}
+            <div class="board-dices">
+                <form action="/roll" method="post">
+                {% if game.turn_to_end == True %}
+                    {% for dice in game.players[game.active_player].dices_saved %}
+                        <label><input name="dice{{ loop.index0 }}" type="checkbox"><i class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i></label>
+                    {% endfor %}
+                {% endif %}
+                    <button type="submit" class="board-cup">
+                        Przerzuć kości
+                    </button>
+                </form>
+            </div>
+            <div class="board-playerstats">
+                {% for player in game.players %}
+                    <div class="board-playerinfo{% if loop.index0 == game.active_player %} board-playerinfo__active{% endif %}">
+                        <ul>
+                            <li>
+                                Nazwa: {{ player.name }}
+                            </li>
+                            {% for score in player.score %}
+                                <li>
+                                    Runda {{ loop.index }}: {{ score }}pkt<br>(
+                                    {% for dice in player.score_dices[loop.index0] %}
+                                    <i class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i>
+                                {% endfor %})
+                                        </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
     </div>
 {% endblock %}

@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   max-height: 100%;
+  overflow: hidden;
 
   .start-game-screen {
     @include shadow();
@@ -35,6 +36,30 @@
     }
   }
 
+  .flash {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    padding: 2rem 3rem;
+    @include shadow();
+    z-index: 1;
+    text-align: center;
+    border-radius: 100vh;
+    transform: translate(-50%, -50%);
+
+    i {
+      font-size: 2rem;
+      animation: rotate_dice 1s ease;
+      margin-top: 0.5rem;
+    }
+
+    @for $i from 1 to 6 {
+      i:nth-of-type(#{$i}) {
+        animation-delay: $i * 100ms;
+      }
+    }
+  }
+
   .board {
     display: flex;
     flex-direction: column;
@@ -47,14 +72,9 @@
     padding: 1rem;
 
     &-stats {
-      background-color: red;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translate(0, -50%);
       padding: 1rem;
       @include shadow();
-      border-radius: 100vh;
+      border-radius: 2rem
     }
 
     &-player {
@@ -64,28 +84,27 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
 
-      &__1 {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 50%;
-
-      }
-
-      &__2 {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        top: 50%;
+      &stats {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
       }
 
       &info {
         @include shadow();
         border-radius: 1rem;
         padding: 1rem 2rem;
-      }
 
+        &__active {
+          background-color: $third-color;
+          @include shadow($color: rgba(184, 134, 11, 0.4));
+        }
+      }
 
     }
 
@@ -96,67 +115,140 @@
       align-items: center;
       justify-content: space-around;
       font-size: 5rem;
+      position: relative;
 
-      label {
-        position: relative;
-        cursor: pointer;
-        padding: 1rem;
-        transition: 0.3s;
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        i {
-          //text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
+        .board-cup {
+          height: 8rem;
+          width: 8rem;
+          color: $first-color;
+          font-size: 1rem;
+          aspect-ratio: 1;
+          padding: 3rem;
+          margin: 2rem;
+          border-radius: 100vh;
+          background-color: red;
+          border: 5px solid darkred;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          cursor: pointer;
           transition: 0.3s;
 
           &:hover {
-            text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
-          }
+            background-color: darkred;
+            box-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, #ff0000 0 0 20px, #ff0000 0 0 30px, #ff0000 0 0 40px, #ff0000 0 0 50px, #ff0000 0 0 75px;
 
-          &:after {
-            content: '🗘';
-            display: block;
-            font-size: 2rem;
-            transform: rotate(30deg) scale(0);
-            position: absolute;
-            top: 0;
-            right: -2rem;
-            opacity: 0;
-            transition: all 0.4s, opacity 0.3s 0.1s;
-            color: #650000;
           }
         }
 
-        input {
-          position: absolute;
-          bottom: -2rem;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          opacity: 0;
+        label {
+          position: relative;
+          cursor: pointer;
+          padding: 1rem;
+          transition: 0.3s;
 
-          &:checked + i {
-            text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, #ff0000 0 0 20px, #ff0000 0 0 30px, #ff0000 0 0 40px, #ff0000 0 0 50px, #ff0000 0 0 75px;
-            transform: rotate(-30deg) scale(1.1);
+          i {
+            //text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
+            transition: 0.3s;
 
             &:hover {
-              color: #212121;
+              text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
             }
 
-
+            &:after {
+              content: '🗘';
+              display: block;
+              font-size: 2rem;
+              transform: rotate(30deg) scale(0);
+              position: absolute;
+              top: 0;
+              right: -2rem;
+              opacity: 0;
+              transition: all 0.4s, opacity 0.3s 0.1s;
+              color: #650000;
+            }
           }
 
-          &:focus-visible + i {
-            color: #212121;
-            text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
-          }
+          input {
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
 
-          &:checked + i:after {
-            opacity: 1;
-            animation: rotate 0.4s 0.1s ease-out both;
+            &:checked + i {
+              text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, #ff0000 0 0 20px, #ff0000 0 0 30px, #ff0000 0 0 40px, #ff0000 0 0 50px, #ff0000 0 0 75px;
+              transform: rotate(-30deg) scale(1.1);
+
+              &:hover {
+                color: #212121;
+              }
+
+
+            }
+
+            &:focus-visible + i {
+              color: #212121;
+              text-shadow: #FFF 0 0 5px, #FFF 0 0 10px, #FFF 0 0 15px, darkgoldenrod 0 0 20px, darkgoldenrod 0 0 30px, darkgoldenrod 0 0 40px, darkgoldenrod 0 0 50px, darkgoldenrod 0 0 75px;
+            }
+
+            &:checked + i:after {
+              opacity: 1;
+              animation: rotate 0.4s 0.1s ease-out both;
+            }
           }
         }
       }
     }
-    ul {
+
+
+
+
+  }
+
+  .win-text {
+      i {
+        color: $third-color;
+      }
+    }
+
+  .win-playerstats {
+    margin: 2rem;
+
+    .board-playerinfo {
+      margin: 2rem;
+    }
+  }
+
+  ul {
       list-style-type: none;
+    }
+}
+
+@media all and (max-width: 934px) {
+  .main {
+    .board {
+      &-dices {
+        flex-grow: 1;
+        font-size: 0rem;
+
+        form {
+          flex-direction: column;
+          justify-content: end;
+          align-items: center;
+
+          label {
+            padding: 0;
+            font-size: 4rem;
+          }
+        }
+      }
     }
   }
 }

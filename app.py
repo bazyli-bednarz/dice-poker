@@ -4,6 +4,7 @@ from player import Player
 from game import Game
 
 app = Flask(__name__)
+app.secret_key = '_5#y2L"F4Q8z'
 game = Game()
 
 @app.route('/')
@@ -33,6 +34,38 @@ def board():
         return redirect('/solo')
     return render_template('board.html', game=game, active_player = game.players[game.active_player])
 
+@app.route('/roll', methods=['POST'])
+def roll():
+    global game
+    if game.number_of_players() == 0:
+        return redirect('/solo')
+
+
+
+    to_reroll = []
+    if 'dice0' in request.form:
+        to_reroll.append(0)
+    if 'dice1' in request.form:
+        to_reroll.append(1)
+    if 'dice2' in request.form:
+        to_reroll.append(2)
+    if 'dice3' in request.form:
+        to_reroll.append(3)
+    if 'dice4' in request.form:
+        to_reroll.append(4)
+
+    game.players[game.active_player].handle_reroll_by_array_index(to_reroll)
+    game.start_rolling()
+
+    if game.check_if_finished():
+        return redirect('/win')
+
+    return redirect('/board')
+
+@app.route('/win')
+def win():
+    global game
+    return render_template('win.html', winner=game.check_game_winner(), game=game)
 
 #
 # game.add_player('Tomasz')
