@@ -16,7 +16,6 @@ class Player:
         self.dices_saved.append(dice)
 
     def handle_reroll_by_array_index(self, index_list):
-        # [0,1,2,5]
         dice_list = []
         for index in index_list:
             dice_list.append(self.dices_saved[index])

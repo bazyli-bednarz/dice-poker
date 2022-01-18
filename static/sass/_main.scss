@@ -47,6 +47,10 @@
     border-radius: 100vh;
     transform: translate(-50%, -50%);
 
+    &__disappear {
+      animation: disappear 1s 4s ease both;
+    }
+
     i {
       font-size: 2rem;
       animation: rotate_dice 1s ease;
@@ -73,8 +77,6 @@
 
     &-stats {
       padding: 1rem;
-      @include shadow();
-      border-radius: 2rem
     }
 
     &-player {
@@ -206,17 +208,38 @@
         }
       }
     }
-
-
-
-
   }
 
-  .win-text {
+  .solo-form {
+    input {
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      border-radius: 100vh;
+      outline: 1px solid darkgoldenrod;
+      border: 2px solid white;
+      &:focus {
+    border: 2px solid darkgoldenrod;
+      }
+    }
+    button {
+      @include button_yellow
+    }
+  }
+
+  .winner-box {
+
+    .win-text {
       i {
         color: $third-color;
       }
     }
+
+    a {
+      @include button_yellow
+    }
+  }
+
 
   .win-playerstats {
     margin: 2rem;
@@ -227,8 +250,8 @@
   }
 
   ul {
-      list-style-type: none;
-    }
+    list-style-type: none;
+  }
 }
 
 @media all and (max-width: 934px) {

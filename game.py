@@ -7,11 +7,19 @@ import random
 import math
 
 class Game:
+    dice_fontawesome_dict = {
+        1: 'one',
+        2: 'two',
+        3: 'three',
+        4: 'four',
+        5: 'five',
+        6: 'six'
+    }
+
     def __init__(self):
         self.dices = (1,2,3,4,5,6)
         self.players = []
         self.active_player = 0
-        self.active_last_round = 0
         self.turn_to_end = False
         self.turn = 0
         self.winners = []
@@ -43,6 +51,8 @@ class Game:
 
     def start_rolling(self):
         if self.check_if_finished():
+            self.turn_to_end = False
+            self.turn = 0
             print('END OF GAME')
             return
 
@@ -60,9 +70,15 @@ class Game:
             self.players[self.active_player].score_dices.append(self.players[self.active_player].dices_saved)
             self.players[self.active_player].dices_to_reroll = []
 
-            message = Markup('Gracz <b>' + self.players[self.active_player].name + '</b> wyrzuca<br>')
-            flash(message)
+            message_dice_count = ''
 
+            for dice in self.players[self.active_player].score_dices[-1]:
+                message_dice_count += '<i class="fas fa-dice-'
+                message_dice_count += self.dice_fontawesome_dict[dice]
+                message_dice_count +='"></i> '
+
+            message = Markup('Gracz <b>' + self.players[self.active_player].name + '</b> wyrzuca<br>' + message_dice_count)
+            flash(message)
             if self.turn % self.number_of_players() == 0:
                 winner = self.check_winner()
                 self.winners.append(winner)
@@ -81,13 +97,11 @@ class Game:
                     self.finished = True
                     return
 
-                if winner == self.active_player:
-                    self.active_last_round = self.active_player
+                if winner != self.active_player:
                     self.next_player()
 
 
             else:
-                self.active_last_round = self.active_player
                 self.next_player()
             self.turn_to_end = False
 
@@ -106,7 +120,11 @@ class Game:
     def check_if_won_most(self):
         # Checks if the player with most wins is able to be defeated
         statistics = Counter([value for value in self.winners if value != -1])
-        if statistics[self.active_player] > self.number_of_rounds - self.turn/2 and statistics[self.active_player] > statistics[(self.active_player + 1) % self.number_of_players()]:
+        print(statistics)
+
+        if statistics[0] > self.number_of_rounds - self.turn/2 and statistics[0] > statistics[1]:
+            return True
+        if statistics[1] > self.number_of_rounds - self.turn/2 and statistics[1] > statistics[0]:
             return True
         return False
 

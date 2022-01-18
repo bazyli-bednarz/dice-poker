@@ -65,7 +65,10 @@ def roll():
 @app.route('/win')
 def win():
     global game
-    return render_template('win.html', winner=game.check_game_winner(), game=game)
+    if game.check_if_finished():
+        return render_template('win.html', winner=game.check_game_winner(), game=game)
+    return redirect('/')
+
 
 #
 # game.add_player('Tomasz')
