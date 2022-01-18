@@ -1,14 +1,15 @@
 {% extends 'base/default.html' %}
 {% block title %}
-Gra solo
+    Gra solo
 {% endblock %}
 
 {% block main %}
-<form action="{{ url_for('solo_start') }}" method="post">
-        <div id="g1">Gracz 1: <input name="player1" value="Tomasz"></div>
-        <div id="g2">Gracz 2: <input name="player2" value="Bożena"></div>
+    <div class="solo-form">
+        <form action="{{ url_for('solo_start') }}" method="post">
+            <div id="g1">Gracz 1: <input name="player1" value="Tomasz"></div>
+            <div id="g2">Gracz 2: <input name="player2" value="Bożena"></div>
 
-
-        <button type="submit">Rozpocznij grę</button>
-    </form>
+            <button type="submit">Rozpocznij grę</button>
+        </form>
+    </div>
 {% endblock %}

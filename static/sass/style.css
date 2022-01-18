@@ -28,6 +28,18 @@
     transform: rotate(720deg);
   }
 }
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -147,6 +159,9 @@ body {
   border-radius: 100vh;
   transform: translate(-50%, -50%);
 }
+.main .flash__disappear {
+  animation: disappear 1s 4s ease both;
+}
 .main .flash i {
   font-size: 2rem;
   animation: rotate_dice 1s ease;
@@ -180,8 +195,6 @@ body {
 }
 .main .board-stats {
   padding: 1rem;
-  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
-  border-radius: 2rem;
 }
 .main .board-player {
   position: absolute;
@@ -291,8 +304,63 @@ body {
   opacity: 1;
   animation: rotate 0.4s 0.1s ease-out both;
 }
-.main .win-text i {
+.main .solo-form input {
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+  border-radius: 100vh;
+  outline: 1px solid darkgoldenrod;
+  border: 2px solid white;
+}
+.main .solo-form input:focus {
+  border: 2px solid darkgoldenrod;
+}
+.main .solo-form button {
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  outline: none;
+  border: none;
+  display: block;
+  background-color: gold;
+  border-radius: 100vh;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  margin: 1rem;
+  transition: 0.3s ease;
+}
+.main .solo-form button:hover, .main .solo-form button:focus-visible {
+  background-color: goldenrod;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.4);
+  color: black;
+}
+.main .winner-box .win-text i {
   color: gold;
+}
+.main .winner-box a {
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  outline: none;
+  border: none;
+  display: block;
+  background-color: gold;
+  border-radius: 100vh;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  margin: 1rem;
+  transition: 0.3s ease;
+}
+.main .winner-box a:hover, .main .winner-box a:focus-visible {
+  background-color: goldenrod;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.4);
+  color: black;
 }
 .main .win-playerstats {
   margin: 2rem;

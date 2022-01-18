@@ -1,3 +1,27 @@
 @mixin shadow($x:3px, $y:3px, $blur: 5px, $spread: 2px, $color: rgba(0, 0, 0, 0.4)) {
   box-shadow: $x $y $blur $spread $color;
 }
+
+@mixin button_yellow() {
+  @include shadow();
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  border: none;
+  display: block;
+  background-color: $third-color;
+  border-radius: 100vh;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  margin: 1rem;
+  transition: 0.3s ease;
+
+  &:hover, &:focus-visible {
+    background-color: goldenrod;
+    @include shadow(1px, 1px);
+    color: $second-color;
+  }
+}
