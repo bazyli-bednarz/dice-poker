@@ -11,7 +11,6 @@ SESSION_TYPE = 'redis'
 
 games = {}
 game_id = itertools.count()
-# game = Game()
 
 @app.route('/')
 def index():
@@ -24,15 +23,34 @@ def hotseat():
 @app.route('/hotseat_start', methods=['POST'])
 def hotseat_start():
     global game_id, games
-    # game = Game()
     new_game_id = next(game_id)
-    games[new_game_id] = Game()
+    games[new_game_id] = Game('hotseat')
     for player in request.form:
         if request.form[player] != '':
             games[new_game_id].add_player(request.form[player])
     if games[new_game_id].number_of_players() != 2:
         games.pop(new_game_id)
         return redirect('/hotseat')
+    else:
+        session['game_id'] = new_game_id
+        return redirect('/board')
+
+@app.route('/solo')
+def solo():
+    return render_template('solo.html')
+
+@app.route('/solo_start', methods=['POST'])
+def solo_start():
+    global game_id, games
+    new_game_id = next(game_id)
+    games[new_game_id] = Game('solo')
+    for player in request.form:
+        if request.form[player] != '':
+            games[new_game_id].add_player(request.form[player])
+    games[new_game_id].add_player('Komputer')
+    if games[new_game_id].number_of_players() != 2:
+        games.pop(new_game_id)
+        return redirect('/solo')
     else:
         session['game_id'] = new_game_id
         return redirect('/board')

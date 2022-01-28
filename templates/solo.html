@@ -1,0 +1,14 @@
+{% extends 'base/default.html' %}
+{% block title %}
+    Gra solo
+{% endblock %}
+
+{% block main %}
+    <div class="solo-form">
+        <form action="{{ url_for('solo_start') }}" method="post">
+            <div id="g1">Gracz 1: <input name="player1" value="Tomasz"></div>
+
+            <button type="submit">Rozpocznij grę</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,5 +1,6 @@
 from player import Player
 from result import Result
+from ai import AI
 from collections import Counter
 from flask import flash
 from flask import Markup
@@ -16,7 +17,7 @@ class Game:
         6: 'six'
     }
 
-    def __init__(self):
+    def __init__(self, game_type):
         self.dices = (1,2,3,4,5,6)
         self.players = []
         self.active_player = 0
@@ -26,6 +27,8 @@ class Game:
         self.number_of_rounds = 3
         self.finished = False
         self.winner = -1
+        self.game_type = game_type
+        self.starting_player = 0
 
     def add_player(self, name):
         self.players.append( Player(name) )
@@ -61,9 +64,21 @@ class Game:
             self.turn += 1
             self.players[self.active_player].dices_saved = []
             self.players[self.active_player].dices_to_reroll = []
-            self.roll([0 for x in range(5)])
+            self.roll([0 for _ in range(5)])
             self.turn_to_end = True
+            if self.game_type == 'solo' and self.active_player == 1:
+                self.start_rolling()
         else:
+
+            message_dice_count_ai = ''
+            if self.game_type == 'solo' and self.active_player == 1:
+
+                for dice in self.players[self.active_player].dices_saved:
+                    message_dice_count_ai += '<i class="fas fa-dice-'
+                    message_dice_count_ai += self.dice_fontawesome_dict[dice]
+                    message_dice_count_ai += '"></i> '
+                self.players[self.active_player].dices_saved, self.players[self.active_player].dices_to_reroll = AI.ai_move_first(self.players[self.active_player].dices_saved)
+
             self.roll(self.players[self.active_player].dices_to_reroll)
             score = Result.dice_score(self.players[self.active_player].dices_saved)
             self.players[self.active_player].score.append(score)
@@ -77,11 +92,15 @@ class Game:
                 message_dice_count += self.dice_fontawesome_dict[dice]
                 message_dice_count +='"></i> '
 
-            message = Markup('Gracz <b>' + self.players[self.active_player].name + '</b> wyrzuca<br>' + message_dice_count)
+            if message_dice_count_ai != '':
+                message = Markup('<b>' + self.players[self.active_player].name + '</b> wyrzuca<br>' + message_dice_count_ai + ',<br>a po przerzuceniu<br>' + message_dice_count)
+            else:
+                message = Markup('Gracz <b>' + self.players[self.active_player].name + '</b> wyrzuca<br>' + message_dice_count)
             flash(message)
             if self.turn % self.number_of_players() == 0:
                 winner = self.check_winner()
                 self.winners.append(winner)
+                self.starting_player = winner
 
                 if self.turn == (self.number_of_rounds * 2):
                     game_score = self.check_game_winner()

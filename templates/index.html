@@ -1,11 +1,12 @@
 {% extends 'base/default.html' %}
 {% block title %}
-Strona główna
+    Strona główna
 {% endblock %}
 
 {% block main %}
     <div class="start-game-screen">
-    <h2>Wybierz tryb gry</h2>
-<a href="{{ url_for('hotseat') }}">Gra hot seat</a>
+        <h2>Wybierz tryb gry</h2>
+        <a href="{{ url_for('hotseat') }}">Gra hot seat</a>
+        <a href="{{ url_for('solo') }}">Gra solo</a>
     </div>
 {% endblock %}
