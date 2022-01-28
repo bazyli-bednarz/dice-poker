@@ -1,11 +1,17 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from result import Result
 from player import Player
 from game import Game
 
+import itertools
+
 app = Flask(__name__)
 app.secret_key = '_5#y2L"F4Q8z'
-game = Game()
+SESSION_TYPE = 'redis'
+
+games = {}
+game_id = itertools.count()
+# game = Game()
 
 @app.route('/')
 def index():
@@ -17,27 +23,32 @@ def hotseat():
 
 @app.route('/hotseat_start', methods=['POST'])
 def hotseat_start():
-    global game
-    game = Game()
+    global game_id, games
+    # game = Game()
+    new_game_id = next(game_id)
+    games[new_game_id] = Game()
     for player in request.form:
         if request.form[player] != '':
-            game.add_player(request.form[player])
-    if game.number_of_players() <= 1:
+            games[new_game_id].add_player(request.form[player])
+    if games[new_game_id].number_of_players() != 2:
+        games.pop(new_game_id)
         return redirect('/hotseat')
     else:
+        session['game_id'] = new_game_id
         return redirect('/board')
 
 @app.route('/board')
 def board():
-    global game
-    if game.number_of_players() == 0:
+    global games
+    print('gameid:', session['game_id'])
+    if games[session['game_id']].number_of_players() != 2:
         return redirect('/hotseat')
-    return render_template('board.html', game=game, active_player = game.players[game.active_player])
+    return render_template('board.html', game=games[session['game_id']], active_player = games[session['game_id']].players[games[session['game_id']].active_player])
 
 @app.route('/roll', methods=['POST'])
 def roll():
-    global game
-    if game.number_of_players() == 0:
+    global games
+    if games[session['game_id']].number_of_players() == 0:
         return redirect('/hotseat')
 
     to_reroll = []
@@ -52,19 +63,19 @@ def roll():
     if 'dice4' in request.form:
         to_reroll.append(4)
 
-    game.players[game.active_player].handle_reroll_by_array_index(to_reroll)
-    game.start_rolling()
+    games[session['game_id']].players[games[session['game_id']].active_player].handle_reroll_by_array_index(to_reroll)
+    games[session['game_id']].start_rolling()
 
-    if game.check_if_finished():
+    if games[session['game_id']].check_if_finished():
         return redirect('/win')
 
     return redirect('/board')
 
 @app.route('/win')
 def win():
-    global game
-    if game.check_if_finished():
-        return render_template('win.html', winner=game.check_game_winner(), game=game)
+    global games
+    if games[session['game_id']].check_if_finished():
+        return render_template('win.html', winner=games[session['game_id']].check_game_winner(), game=games[session['game_id']])
     return redirect('/')
 
 
