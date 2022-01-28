@@ -1,3 +1,4 @@
+from collections import Counter
 class Player:
     def __init__(self, name):
         self.name = name
@@ -19,8 +20,11 @@ class Player:
         dice_list = []
         for index in index_list:
             dice_list.append(self.dices_saved[index])
+        dice_list_counter = Counter(dice_list)
+        dices_saved_counter = Counter(self.dices_saved)
+        difference = dices_saved_counter - dice_list_counter
+        new_dices_saved = list(difference.elements())
 
-        new_dices_saved = [x for x in self.dices_saved if x not in dice_list]
         self.dices_to_reroll = dice_list
         self.dices_saved = new_dices_saved
 

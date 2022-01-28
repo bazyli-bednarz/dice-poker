@@ -11,19 +11,19 @@ game = Game()
 def index():
     return render_template('index.html')
 
-@app.route('/solo')
-def solo():
-    return render_template('solo.html')
+@app.route('/hotseat')
+def hotseat():
+    return render_template('hotseat.html')
 
-@app.route('/solo_start', methods=['POST'])
-def solo_start():
+@app.route('/hotseat_start', methods=['POST'])
+def hotseat_start():
     global game
     game = Game()
     for player in request.form:
         if request.form[player] != '':
             game.add_player(request.form[player])
     if game.number_of_players() <= 1:
-        return redirect('/solo')
+        return redirect('/hotseat')
     else:
         return redirect('/board')
 
@@ -31,16 +31,14 @@ def solo_start():
 def board():
     global game
     if game.number_of_players() == 0:
-        return redirect('/solo')
+        return redirect('/hotseat')
     return render_template('board.html', game=game, active_player = game.players[game.active_player])
 
 @app.route('/roll', methods=['POST'])
 def roll():
     global game
     if game.number_of_players() == 0:
-        return redirect('/solo')
-
-
+        return redirect('/hotseat')
 
     to_reroll = []
     if 'dice0' in request.form:
