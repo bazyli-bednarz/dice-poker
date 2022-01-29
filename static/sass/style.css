@@ -184,29 +184,6 @@ body {
   transform: translate(-50%, -55%) rotate(-20deg);
   font-size: 5rem;
 }
-.header .nav {
-  flex-grow: 4;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  display: none;
-}
-.header .nav ul {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-}
-.header .nav ul li {
-  padding: 0 2rem;
-}
-.header .nav ul li a {
-  text-decoration: none;
-  color: white;
-  transition: color 0.3s ease;
-}
-.header .nav ul li a:hover {
-  color: gold;
-}
 
 .main {
   position: relative;

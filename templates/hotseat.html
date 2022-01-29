@@ -6,8 +6,8 @@
 {% block main %}
     <div class="solo-form">
         <form action="{{ url_for('hotseat_start') }}" method="post">
-            <div id="g1">Gracz 1: <input required name="player1"></div>
-            <div id="g2">Gracz 2: <input required name="player2"></div>
+            <div id="g1"><label for="player1">Gracz 1: <input required name="player1"></label></div>
+            <div id="g2"><label for="player2">Gracz 2: <input required name="player2"></label></div>
 
             <button type="submit">Rozpocznij grę</button>
         </form>
