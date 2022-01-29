@@ -42,11 +42,12 @@ def solo():
 @app.route('/solo_start', methods=['POST'])
 def solo_start():
     global game_id, games
+    if not request.form.get('difficulty'):
+        return redirect('/solo')
     new_game_id = next(game_id)
-    games[new_game_id] = Game('solo')
-    for player in request.form:
-        if request.form[player] != '':
-            games[new_game_id].add_player(request.form[player])
+    games[new_game_id] = Game('solo', request.form.get('difficulty'))
+    if request.form.get('player1') != '':
+        games[new_game_id].add_player(request.form.get('player1'))
     games[new_game_id].add_player('Komputer')
     if games[new_game_id].number_of_players() != 2:
         games.pop(new_game_id)

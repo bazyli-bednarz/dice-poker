@@ -40,6 +40,14 @@
     display: none;
   }
 }
+@keyframes pulsing_crown {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-30%);
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -57,6 +65,42 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.flash {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  padding: 2rem 3rem;
+  background-color: #fff;
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  text-align: center;
+  border-radius: 100vh;
+  transform: translate(-50%, -50%);
+}
+.flash__disappear {
+  animation: disappear 1s 4s ease both;
+}
+.flash i {
+  font-size: 2rem;
+  animation: rotate_dice 1s ease;
+  margin-top: 0.5rem;
+}
+.flash i:nth-of-type(1) {
+  animation-delay: 100ms;
+}
+.flash i:nth-of-type(2) {
+  animation-delay: 200ms;
+}
+.flash i:nth-of-type(3) {
+  animation-delay: 300ms;
+}
+.flash i:nth-of-type(4) {
+  animation-delay: 400ms;
+}
+.flash i:nth-of-type(5) {
+  animation-delay: 500ms;
 }
 
 .header {
@@ -148,40 +192,6 @@ body {
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.4);
   color: black;
 }
-.main .flash {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  padding: 2rem 3rem;
-  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
-  z-index: 1;
-  text-align: center;
-  border-radius: 100vh;
-  transform: translate(-50%, -50%);
-}
-.main .flash__disappear {
-  animation: disappear 1s 4s ease both;
-}
-.main .flash i {
-  font-size: 2rem;
-  animation: rotate_dice 1s ease;
-  margin-top: 0.5rem;
-}
-.main .flash i:nth-of-type(1) {
-  animation-delay: 100ms;
-}
-.main .flash i:nth-of-type(2) {
-  animation-delay: 200ms;
-}
-.main .flash i:nth-of-type(3) {
-  animation-delay: 300ms;
-}
-.main .flash i:nth-of-type(4) {
-  animation-delay: 400ms;
-}
-.main .flash i:nth-of-type(5) {
-  animation-delay: 500ms;
-}
 .main .board {
   display: flex;
   flex-direction: column;
@@ -222,6 +232,12 @@ body {
   background-color: gold;
   box-shadow: 3px 3px 5px 2px rgba(184, 134, 11, 0.4);
 }
+.main .board-playerinfo__crowned::before {
+  content: "👑";
+  display: block;
+  text-align: center;
+  animation: pulsing_crown 1s ease-in-out infinite both alternate;
+}
 .main .board-dices {
   flex-grow: 5;
   display: flex;
@@ -230,6 +246,7 @@ body {
   justify-content: space-around;
   font-size: 5rem;
   position: relative;
+  animation: fadeIn 1.5s 0.6s ease both;
 }
 .main .board-dices form {
   display: flex;
@@ -304,15 +321,21 @@ body {
   opacity: 1;
   animation: rotate 0.4s 0.1s ease-out both;
 }
-.main .solo-form input {
+.main .solo-form {
+  animation: fadeIn 1.5s 0.6s ease both;
+}
+.main .solo-form input, .main .solo-form select {
+  font-family: "Roboto", sans-serif;
   font-size: 1rem;
   padding: 1rem 2rem;
   margin: 0.5rem;
   border-radius: 100vh;
   outline: 1px solid darkgoldenrod;
   border: 2px solid white;
+  background-color: #fff;
+  transition: 0.3s;
 }
-.main .solo-form input:focus {
+.main .solo-form input:focus, .main .solo-form select:focus {
   border: 2px solid darkgoldenrod;
 }
 .main .solo-form button {
@@ -337,8 +360,45 @@ body {
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.4);
   color: black;
 }
+.main .solo-form select {
+  width: 150px;
+}
+.main .solo-form i {
+  transition: 0.3s;
+  position: relative;
+  cursor: pointer;
+}
+.main .solo-form i:after {
+  display: none;
+  content: "Łatwy: komputer nie przerzuca kości. Średni: komputer przerzuca kości. Trudny: komputer patrzy na Twój wynik i przerzuca kości.";
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  width: 150px;
+  padding: 2rem;
+  line-height: normal;
+  border-radius: 1rem;
+  color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(20%, -45%);
+  border: 1px solid darkgoldenrod;
+  transition: 0.3s;
+  background-color: #fff;
+}
+.main .solo-form i:hover {
+  color: darkgoldenrod;
+}
+.main .solo-form i:hover::after {
+  display: block;
+}
+.main .winner-box {
+  animation: fadeIn 1.5s 0.6s ease both;
+}
 .main .winner-box .win-text i {
   color: gold;
+  animation: rotate 0.7s 2s ease both;
+  text-shadow: 1px 1px 1px black, 2px 2px 2px darkgoldenrod;
 }
 .main .winner-box a {
   box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
@@ -363,6 +423,7 @@ body {
   color: black;
 }
 .main .win-playerstats {
+  animation: fadeIn 1.5s 0.6s ease both;
   margin: 2rem;
 }
 .main .win-playerstats .board-playerinfo {
@@ -375,7 +436,7 @@ body {
 @media all and (max-width: 934px) {
   .main .board-dices {
     flex-grow: 1;
-    font-size: 0rem;
+    font-size: 0;
   }
   .main .board-dices form {
     flex-direction: column;

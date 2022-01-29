@@ -4,31 +4,23 @@
 {% endblock %}
 
 {% block main %}
-    {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash flash__disappear">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
 
     <div class="winner-box">
-    <h1 class="win-text">
-        <i class="fas fa-trophy"></i>
-        {% if winner == -1 %}
-            Remis!
-        {% else %}
-            {{ game.players[winner].name }} wygrywa!
-        {% endif %}
-        <i class="fas fa-trophy"></i>
-    </h1>
-        <a href="{{ url_for(game.game_type) }}">Nowa gra</a>
-</div>
+        <h1 class="win-text">
+            <i class="fas fa-trophy"></i>
+            {% if winner == -1 %}
+                Remis!
+            {% else %}
+                {{ game.players[winner].name }} wygrywa!
+            {% endif %}
+            <i class="fas fa-trophy"></i>
+        </h1>
+        <a href="{{ url_for(game.game_type) }}">Zagraj ponownie</a>
+        <a href="{{ url_for('index') }}">Menu główne</a>
+    </div>
     <div class="win-playerstats">
         {% for player in game.players %}
-            <div class="board-playerinfo{% if loop.index0 == winner and winner != -1 %} board-playerinfo__active{% endif %}">
+            <div class="board-playerinfo{% if loop.index0 == winner and winner != -1 %} board-playerinfo__active board-playerinfo__crowned{% endif %}">
                 <ul>
                     <li>
                         <b>{{ player.name }}</b>

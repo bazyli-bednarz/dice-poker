@@ -6,15 +6,7 @@
 {% block main %}
 
     <div class="board">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+
 
         <div class="board-player">
             <div class="board-stats">

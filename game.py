@@ -17,7 +17,7 @@ class Game:
         6: 'six'
     }
 
-    def __init__(self, game_type):
+    def __init__(self, game_type, difficulty = None):
         self.dices = (1,2,3,4,5,6)
         self.players = []
         self.active_player = 0
@@ -29,6 +29,7 @@ class Game:
         self.winner = -1
         self.game_type = game_type
         self.starting_player = 0
+        self.difficulty = difficulty
 
     def add_player(self, name):
         self.players.append( Player(name) )
@@ -71,13 +72,19 @@ class Game:
         else:
 
             message_dice_count_ai = ''
-            if self.game_type == 'solo' and self.active_player == 1:
+            if self.game_type == 'solo' and self.active_player == 1 and self.difficulty != 'easy':
 
                 for dice in self.players[self.active_player].dices_saved:
                     message_dice_count_ai += '<i class="fas fa-dice-'
                     message_dice_count_ai += self.dice_fontawesome_dict[dice]
                     message_dice_count_ai += '"></i> '
-                self.players[self.active_player].dices_saved, self.players[self.active_player].dices_to_reroll = AI.ai_move_first(self.players[self.active_player].dices_saved)
+                if self.difficulty == 'hard' and self.starting_player == 0:
+                    starting_player_score = Result.dice_score(self.players[0].score_dices[-1])
+                    self.players[self.active_player].dices_saved, self.players[
+                        self.active_player].dices_to_reroll = AI.ai_move_second(
+                        self.players[self.active_player].dices_saved, starting_player_score)
+                else:
+                    self.players[self.active_player].dices_saved, self.players[self.active_player].dices_to_reroll = AI.ai_move_first(self.players[self.active_player].dices_saved)
 
             self.roll(self.players[self.active_player].dices_to_reroll)
             score = Result.dice_score(self.players[self.active_player].dices_saved)

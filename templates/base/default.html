@@ -16,21 +16,20 @@
 </head>
 <body>
 <div class="wrapper">
+{% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     <header class="header">
-        <a class="logo" href="#">
+        <a class="logo" href="{{ url_for('index') }}">
             <h1>dice-poker</h1>
             <i class="fas fa-dice"></i>
         </a>
-        <nav class="nav">
-            <ul>
-                <li><a href="#"><i class="fas fa-dice-one"></i> Link 1</a></li>
-                <li><a href="#"><i class="fas fa-dice-two"></i> Link 2</a></li>
-                <li><a href="#"><i class="fas fa-dice-three"></i> Link 3</a></li>
-                <li><a href="#"><i class="fas fa-dice-four"></i> Link 4</a></li>
-                <li><a href="#"><i class="fas fa-dice-five"></i> Link 5</a></li>
-                <li><a href="#"><i class="fas fa-dice-six"></i> Link 6</a></li>
-            </ul>
-        </nav>
     </header>
     <main class="main">
         {% block main %}

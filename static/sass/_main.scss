@@ -36,34 +36,6 @@
     }
   }
 
-  .flash {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    padding: 2rem 3rem;
-    @include shadow();
-    z-index: 1;
-    text-align: center;
-    border-radius: 100vh;
-    transform: translate(-50%, -50%);
-
-    &__disappear {
-      animation: disappear 1s 4s ease both;
-    }
-
-    i {
-      font-size: 2rem;
-      animation: rotate_dice 1s ease;
-      margin-top: 0.5rem;
-    }
-
-    @for $i from 1 to 6 {
-      i:nth-of-type(#{$i}) {
-        animation-delay: $i * 100ms;
-      }
-    }
-  }
-
   .board {
     display: flex;
     flex-direction: column;
@@ -106,6 +78,13 @@
           background-color: $third-color;
           @include shadow($color: rgba(184, 134, 11, 0.4));
         }
+
+        &__crowned::before {
+          content: "👑";
+          display: block;
+          text-align: center;
+          animation: pulsing_crown 1s ease-in-out infinite both alternate;
+        }
       }
 
     }
@@ -118,6 +97,7 @@
       justify-content: space-around;
       font-size: 5rem;
       position: relative;
+      animation: fadeIn 1.5s 0.6s ease both;
 
       form {
         display: flex;
@@ -211,27 +191,74 @@
   }
 
   .solo-form {
-    input {
+    animation: fadeIn 1.5s 0.6s ease both;
+
+    input, select {
+      font-family: 'Roboto', sans-serif;
       font-size: 1rem;
       padding: 1rem 2rem;
       margin: 0.5rem;
       border-radius: 100vh;
       outline: 1px solid darkgoldenrod;
       border: 2px solid white;
+      background-color: #fff;
+      transition: 0.3s;
+
       &:focus {
-    border: 2px solid darkgoldenrod;
+        border: 2px solid darkgoldenrod;
       }
     }
+
     button {
       @include button_yellow
+    }
+
+    select {
+      width: 150px;
+    }
+
+    i {
+      transition: 0.3s;
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        display: none;
+        content: "Łatwy: komputer nie przerzuca kości. Średni: komputer przerzuca kości. Trudny: komputer patrzy na Twój wynik i przerzuca kości.";
+        font-family: 'Roboto', sans-serif;
+        font-weight: normal;
+        width: 150px;
+        padding: 2rem;
+        line-height: normal;
+        border-radius: 1rem;
+        color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(20%, -45%);
+        border: 1px solid darkgoldenrod;
+        transition: 0.3s;
+        background-color: #fff;
+      }
+
+      &:hover {
+        color: darkgoldenrod;
+
+        &::after {
+          display: block;
+        }
+      }
     }
   }
 
   .winner-box {
+    animation: fadeIn 1.5s 0.6s ease both;
 
     .win-text {
       i {
         color: $third-color;
+        animation: rotate 0.7s 2s ease both;
+        text-shadow: 1px 1px 1px black, 2px 2px 2px darkgoldenrod;
       }
     }
 
@@ -242,6 +269,7 @@
 
 
   .win-playerstats {
+    animation: fadeIn 1.5s 0.6s ease both;
     margin: 2rem;
 
     .board-playerinfo {
@@ -259,7 +287,7 @@
     .board {
       &-dices {
         flex-grow: 1;
-        font-size: 0rem;
+        font-size: 0;
 
         form {
           flex-direction: column;
