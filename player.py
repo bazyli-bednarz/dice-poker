@@ -1,6 +1,7 @@
 from collections import Counter
 class Player:
     def __init__(self, name):
+        # Initialization
         self.name = name
         self.dices_saved = []
         self.dices_to_reroll = []
@@ -8,15 +9,17 @@ class Player:
         self.score_dices = []
 
     def add_to_reroll(self, index):
-        print(self)
+        # Adds dice with given index to reroll pool
         dice = self.dices_saved.pop(index)
         self.dices_to_reroll.append(dice)
 
     def remove_from_reroll(self, index):
+        # Removes from reroll pool by index
         dice = self.dices_to_reroll.pop(index)
         self.dices_saved.append(dice)
 
     def handle_reroll_by_array_index(self, index_list):
+        # Rerolls dices with given index list
         dice_list = []
         for index in index_list:
             dice_list.append(self.dices_saved[index])
@@ -27,10 +30,6 @@ class Player:
 
         self.dices_to_reroll = dice_list
         self.dices_saved = new_dices_saved
-
-
-    def reroll(self):
-        pass
 
     def __repr__(self):
         return f'''

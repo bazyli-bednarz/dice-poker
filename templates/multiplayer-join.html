@@ -1,0 +1,14 @@
+{% extends 'base/default.html' %}
+{% block title %}
+    Gra multiplayer - dołącz do pokoju
+{% endblock %}
+
+{% block main %}
+    <div class="solo-form">
+        <h2>Dołącz do pokoju {{ room_id }} gracza {{ games[room_id].players[0].name }}</h2>
+        <form action="{{ url_for('multiplayer_join_room', id=room_id) }}" method="post">
+            <div id="g1"><label for="player1">Imię gracza: <input name="player1" value="Tomasz"></label></div>
+            <button type="submit">Dołącz do gry!</button>
+        </form>
+    </div>
+{% endblock %}

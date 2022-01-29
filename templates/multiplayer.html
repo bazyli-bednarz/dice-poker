@@ -1,0 +1,41 @@
+{% extends 'base/default.html' %}
+{% block title %}
+    Gra multiplayer - wybór pokoju
+{% endblock %}
+
+{% block main %}
+    <div class="multiplayer-wrapper">
+    <button onClick="window.location.reload()" title="Odśwież listę pokoi">♻️</button>
+    <a href="{{ url_for('multiplayer_new') }}">Utwórz nową grę</a>
+    {% if games|length == 0 %}
+        <p>Nie ma żadnych aktywnych gier multiplayer :(</p>
+    {% else %}
+        <table class="multiplayer-rooms">
+            <tr>
+                <th>ID</th>
+                <th>Założyciel</th>
+                <th>Liczba graczy</th>
+            </tr>
+            {% for key, game in games.items() %}
+                {% if not game.check_if_finished() %}
+                    <tr>
+                        <td><span class="emoji"></span> {{ key }}</td>
+                        <td>{{ game.players[0].name }}</td>
+                        <td>{{ game.players|length }}</td>
+                        <td>{% if game.players|length == 1 %}
+                            <a href="{{ url_for('multiplayer_join', id=key) }}">Zagraj!</a>
+                        {% else %}
+                            Gra w toku 😳
+                        {% endif %}
+                        </td>
+
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
+</div>
+{% block js %}
+    <script src="{{ url_for('static', filename='js/emojis.js') }}"></script>
+{% endblock %}

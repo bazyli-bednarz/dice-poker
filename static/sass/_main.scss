@@ -15,6 +15,10 @@
     border-radius: 1rem;
     animation: fadeIn 1.5s 0.6s ease both;
 
+    h2 {
+      text-align: center;
+    }
+
     a {
       @include shadow();
       display: block;
@@ -46,6 +50,43 @@
     right: 0;
     flex-grow: 1;
     padding: 1rem;
+
+    .waiting-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .waiting-dice {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        i {
+          transform-origin: center center;
+          text-align: center;
+          font-size: 20rem;
+          animation: rotate_waiting_dice 2s infinite alternate ease;
+          opacity: 0.2;
+        }
+      }
+
+
+      p {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 1rem;
+      }
+
+    }
 
     &-stats {
       padding: 1rem;
@@ -279,6 +320,40 @@
 
   ul {
     list-style-type: none;
+  }
+
+  .multiplayer-wrapper {
+    text-align: center;
+    padding: 2rem;
+
+    button {
+      background-color: #fff;
+      border: none;
+      font-size: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transform-origin: center 60%;
+      &:hover {
+        animation: rotate 0.5s ease both;
+      }
+    }
+
+    a {
+      @include button_yellow
+    }
+
+    .multiplayer-rooms {
+      padding: 1rem 2rem;
+      border: 2px solid black;
+      border-collapse: collapse;
+
+      tr {
+        td, th {
+          padding: 1rem 2rem;
+          border: 1px solid black;
+        }
+      }
+    }
   }
 }
 

@@ -52,3 +52,56 @@
   transform: translateY(-30%);
 }
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+  30% {
+    transform: scale(1.2) translate(-50%, -50%);
+  }
+  60% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes rotate_waiting_dice {
+  0% {
+    color: white;
+    transform: rotate(0);
+  }
+  10% {
+    color: white;
+  }
+  20% {
+    color: greenyellow;
+  }
+30% {
+    color: #0b3cb8;
+  }
+  40% {
+    color: #b80b33;
+  }
+  50% {
+    color: #0bb85f;
+  }
+  60% {
+    color: #b80b0b;
+  }
+  70% {
+    color: #760bb8;
+  }
+  80% {
+    color: #15342c;
+  }
+  90% {
+color: red;
+  }
+  100% {
+    color: darkgoldenrod;
+    transform: rotate(720deg);
+  }
+}
