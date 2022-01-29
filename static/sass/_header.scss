@@ -31,34 +31,4 @@
     }
 
   }
-
-  .nav {
-    flex-grow: 4;
-    background-color: $second-color;
-    display: flex;
-    align-items: center;
-    display: none;
-
-    ul {
-      display: flex;
-      flex-direction: row;
-
-      list-style: none;
-
-      li {
-        padding: 0 2rem;
-
-        a {
-          text-decoration: none;
-          color: $first-color;
-          transition: color 0.3s ease;
-
-          &:hover {
-            color: $third-color;
-          }
-        }
-      }
-
-    }
-  }
 }

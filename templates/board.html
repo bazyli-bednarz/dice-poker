@@ -38,6 +38,21 @@
                                 {{ game.players[winner].name }} {% endif %}</li>
                         {% endfor %}
                         <li>Runda: {{ game.get_round_progress() }}</li>
+                    <li>
+                        <br>
+                        <ul>
+                            <li><b>Five-of-a-kind</b>: 70pkt+wartość jednej kości z piątki</li>
+                            <li><b>Four-of-a-kind</b>: 60pkt+wartość jednej kości z czwórki</li>
+                            <li><b>Full House</b>: 30pkt + wartość wszystkich kości</li>
+                            <li><b>Six-high straight</b>: 30pkt</li>
+                            <li><b>Five-high straight</b>: 25pkt</li>
+                            <li><b>Three-of-a-kind</b>: 15pkt+wartość kości z trójki</li>
+                            <li><b>Two pairs</b>: 4pkt+wartości kości z obu par</li>
+                            <li><b>One pair</b>: wartość jednej kości z pary</li>
+                            <li><b>High card</b>: 0pkt</li>
+                        </ul>
+                    </li>
+                    
                     </ul>
                 </div>
 
