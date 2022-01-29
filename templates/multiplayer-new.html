@@ -1,0 +1,13 @@
+{% extends 'base/default.html' %}
+{% block title %}
+    Gra multiplayer - załóź pokój
+{% endblock %}
+
+{% block main %}
+    <div class="solo-form">
+        <form action="{{ url_for('multiplayer_start') }}" method="post">
+            <div id="g1"><label for="player1">Imię gracza: <input required name="player1"></label></div>
+            <button type="submit">Rozpocznij grę</button>
+        </form>
+    </div>
+{% endblock %}

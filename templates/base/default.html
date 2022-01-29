@@ -11,20 +11,26 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/favicon_io/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon_io/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon_io/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='img/favicon_io/site.webmanifest') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='sass/style.css') }}">
     <title>{% block title %}{% endblock %} - dice-poker</title>
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
 <div class="wrapper">
-{% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     <header class="header">
         <a class="logo" href="{{ url_for('index') }}">
             <h1>dice-poker</h1>

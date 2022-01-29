@@ -8,6 +8,9 @@ import random
 import math
 
 class Game:
+    # Game class
+
+    # Dictionary for mapping dice points to its values
     dice_fontawesome_dict = {
         1: 'one',
         2: 'two',
@@ -18,6 +21,7 @@ class Game:
     }
 
     def __init__(self, game_type, difficulty = None):
+        # Initialization
         self.dices = (1,2,3,4,5,6)
         self.players = []
         self.active_player = 0
@@ -32,32 +36,37 @@ class Game:
         self.difficulty = difficulty
 
     def add_player(self, name):
+        # For adding new player to the game
         self.players.append( Player(name) )
 
     def number_of_players(self):
+        # Get number of players
         return len(self.players)
 
     def next_player(self):
+        # Change active player to the next in queue
         self.active_player += 1
         self.active_player %= self.number_of_players()
 
     def roll(self, dice_list):
+        # Return new values for each dice in the list
         for i in range(len(dice_list)):
             random_dice = random.randint(1,6)
-            print(random_dice)
             self.players[self.active_player].dices_saved.append(random_dice)
 
     def get_round_progress(self):
+        # Returns round progress in format round/number of rounds
         return self.get_round()+'/'+str(self.number_of_rounds)
 
     def get_round(self):
+        # Returns round number
         return str(math.ceil(self.turn / 2))
 
     def start_rolling(self):
+        # Handles rolling dice
         if self.check_if_finished():
             self.turn_to_end = False
             self.turn = 0
-            print('END OF GAME')
             return
 
 
@@ -110,16 +119,10 @@ class Game:
                 self.starting_player = winner
 
                 if self.turn == (self.number_of_rounds * 2):
-                    game_score = self.check_game_winner()
-                    if game_score == -1:
-                        print('Draw')
-                    else:
-                        print('Player', game_score, 'wins')
                     self.finished = True
                     return
 
                 if self.check_if_won_most():
-                    print('Player', self.active_player, 'wins')
                     self.finished = True
                     return
 
@@ -132,10 +135,12 @@ class Game:
             self.turn_to_end = False
 
     def check_if_finished(self):
+        # Returns True if the game is finished or False if not
         return self.finished
 
 
     def check_winner(self):
+        # Returns index of winning player or -1 in case of a draw
         winner = -1
         if self.players[0].score[-1] > self.players[1].score[-1]:
             winner = 0
@@ -144,9 +149,8 @@ class Game:
         return winner
 
     def check_if_won_most(self):
-        # Checks if the player with most wins is able to be defeated
+        # Checks if it's possible to win with player with most wins
         statistics = Counter([value for value in self.winners if value != -1])
-        print(statistics)
 
         if statistics[0] > self.number_of_rounds - self.turn/2 and statistics[0] > statistics[1]:
             return True
@@ -155,6 +159,7 @@ class Game:
         return False
 
     def check_game_winner(self):
+        # Returns game winner
         statistics = Counter(self.winners)
         occurrences = statistics.most_common()
 

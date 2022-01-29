@@ -2,57 +2,81 @@
 {% block title %}
     Gra {{ game.game_type }}
 {% endblock %}
+{% block head %}
+    {% if (game.game_type == 'multiplayer' and game.active_player != session['player_id']) or game.players|length == 1 %}
+        <meta http-equiv="refresh" content="4">
+    {% endif %}
+{% endblock %}
 
 {% block main %}
 
     <div class="board">
-
-
-        <div class="board-player">
-            <div class="board-stats">
-                <ul>
-                    <li>Ruch gracza: {{ game.players[game.active_player].name }}</li>
-                    {% for winner in game.winners %}
-                        <li>Zwycięzca rundy {{ loop.index }}: {% if winner == -1 %}remis{% else %} {{ game.players[winner].name }} {% endif %}</li>
-                    {% endfor %}
-                    <li>Runda: {{ game.get_round_progress() }}</li>
-                </ul>
+        {% if game.game_type == 'multiplayer' and game.players|length == 1 %}
+            <div class="board-waiting">
+                <h1>
+                    Cześć, {{ game.players[game.active_player].name }}!
+                </h1>
+                <p>Poczekaj na dołączenie drugiego gracza...</p>
             </div>
-
-            <div class="board-dices">
-                <form action="{{ url_for('roll') }}" method="post">
-                    {% if game.turn_to_end == True %}
-                        {% for dice in game.players[game.active_player].dices_saved %}
-                            <label><input name="dice{{ loop.index0 }}" type="checkbox"><i
-                                    class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i></label>
-                        {% endfor %}
-                    {% endif %}
-                    <button type="submit" class="board-cup">
-                        Przerzuć kości
-                    </button>
-                </form>
-            </div>
-            <div class="board-playerstats">
-                {% for player in game.players %}
-                    <div class="board-playerinfo{% if loop.index0 == game.active_player %} board-playerinfo__active{% endif %}">
-                        <ul>
-                            <li>
-                                <b>{{ player.name }}</b>
-                            </li>
-                            {% for score in player.score %}
-                                <li>
-                                    Runda {{ loop.index }}: {{ score }}pkt<br>(
-                                    {% for dice in player.score_dices[loop.index0] %}
-                                        <i class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i>
-                                    {% endfor %})
-                                </li>
-                            {% endfor %}
-                        </ul>
+        {% else %}
+            {% if not (game.active_player == session['player_id'] or game.game_type != 'multiplayer') %}
+                <div class="waiting-text">
+                    <div class="waiting-dice">
+                        <i class="fad fa-dice-six"></i>
                     </div>
-                {% endfor %}
+                    <p>Poczekaj na ruch gracza <b>{{ active_player.name }}</b>...</p>
+                </div>
+
+            {% endif %}
+
+            <div class="board-player">
+                <div class="board-stats">
+                    <ul>
+                        <li>Ruch gracza: {{ game.players[game.active_player].name }}</li>
+                        {% for winner in game.winners %}
+                            <li>Zwycięzca rundy {{ loop.index }}: {% if winner == -1 %}remis{% else %}
+                                {{ game.players[winner].name }} {% endif %}</li>
+                        {% endfor %}
+                        <li>Runda: {{ game.get_round_progress() }}</li>
+                    </ul>
+                </div>
+
+                <div class="board-dices">
+                    {% if game.active_player == session['player_id'] or game.game_type != 'multiplayer' %}
+                        <form action="{{ url_for('roll') }}" method="post">
+                            {% if game.turn_to_end == True %}
+                                {% for dice in game.players[game.active_player].dices_saved %}
+                                    <label><input name="dice{{ loop.index0 }}" type="checkbox"><i
+                                            class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i></label>
+                                {% endfor %}
+                            {% endif %}
+                            <button type="submit" class="board-cup">
+                                Przerzuć kości
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="board-playerstats">
+                    {% for player in game.players %}
+                        <div class="board-playerinfo{% if loop.index0 == game.active_player %} board-playerinfo__active{% endif %}">
+                            <ul>
+                                <li>
+                                    <b>{{ player.name }}</b>
+                                </li>
+                                {% for score in player.score %}
+                                    <li>
+                                        Runda {{ loop.index }}: {{ score }}pkt<br>(
+                                        {% for dice in player.score_dices[loop.index0] %}
+                                            <i class="fas fa-dice-{% if dice == 1 %}one{% elif dice == 2 %}two{% elif dice == 3 %}three{% elif dice == 4 %}four{% elif dice == 5 %}five{% elif dice == 6 %}six{% endif %}"></i>
+                                        {% endfor %})
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
 
-
+        {% endif %}
     </div>
 {% endblock %}

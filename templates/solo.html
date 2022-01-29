@@ -6,7 +6,7 @@
 {% block main %}
     <div class="solo-form">
         <form action="{{ url_for('solo_start') }}" method="post">
-            <div id="g1">Imię gracza: <input name="player1" value="Tomasz"></div>
+            <div id="g1">Imię gracza: <input required name="player1"></div>
             <label for="difficulty">Poziom trudności:
                 <select name="difficulty" id="d1">
                     <option value="easy">Łatwy</option>
