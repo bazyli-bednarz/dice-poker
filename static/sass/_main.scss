@@ -360,8 +360,18 @@
 }
 
 @media all and (max-width: 934px) {
+  :root {
+    font-size: 0.9rem;
+  }
+  .hide-on-mobile {
+    display: none !important;
+  }
   .main {
     .board {
+      &-playerinfo {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
       &-dices {
         flex-grow: 1;
         font-size: 0;

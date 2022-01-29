@@ -164,7 +164,7 @@ def win():
     global games
     session_game_id = session['game_id']
     if games[session_game_id].check_if_finished():
-        session['game_id'] = 0
+        session['game_id'] = None
         return render_template('win.html', winner=games[session_game_id].check_game_winner(), game=games[session_game_id])
     return redirect('/')
 
